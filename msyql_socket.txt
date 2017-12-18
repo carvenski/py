@@ -1,0 +1,9 @@
+
+
+For TCP and UDP networks, addresses have the form host[:port]. If port is omitted, 
+the default port will be used. If host is a literal IPv6 address, it must be enclosed in square brackets. 
+The functions net.JoinHostPort and net.SplitHostPort manipulate addresses in this form.
+
+For Unix domain sockets the address is the absolute path to the MySQL-Server-socket, 
+e.g. /var/run/mysqld/mysqld.sock or /tmp/mysql.sock.
+

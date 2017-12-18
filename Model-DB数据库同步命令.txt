@@ -1,0 +1,15 @@
+
+
+# create database yourself first,
+
+manage.py  check
+
+manage.py  sqlall
+
+manage.py  makemigrations
+
+manage.py  migrate
+
+manage.py  syncdb
+
+

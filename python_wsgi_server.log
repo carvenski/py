@@ -1,0 +1,119 @@
+
+# test.py
+from time import sleep  #难道不应该是用gevent.sleep(10) ?? 这个time.sleep不阻塞?也能并发?? 有点奇怪...
+def app(environ, start_response):
+      data = b"Hello, World!\n"
+      start_response("200 OK", [
+          ("Content-Type", "text/plain"),
+          ("Content-Length", str(len(data)))
+      ])
+      print('=========sleeping 10s===========')
+      sleep(10)
+      return iter([data])
+      
+====================================================================================================================================
+==gunicorn实测结果==
+    sync模式时,每个请求占用10s,一个请求处理完了才能继续处理下一个请求,所以总共10000*10s,根本不能用！
+    async模式时(使用gevent),10s完成10000个请求的并发处理,10000个请求几乎都是同时处理的,相当于只是一个请求的处理时间.可用！
+
+async gevent------------------------------------------------------------------------------------------------------------------------
+$ gunicorn -k gevent test:app -b  0.0.0.0:3000
+[2017-07-22 11:15:32 +0000] [830] [INFO] Starting gunicorn 19.7.1
+[2017-07-22 11:15:32 +0000] [830] [INFO] Listening at: http://0.0.0.0:3000 (830)
+[2017-07-22 11:15:32 +0000] [830] [INFO] Using worker: gevent
+[2017-07-22 11:15:32 +0000] [834] [INFO] Booting worker with pid: 834
+=========sleeping 10s===========
+=========sleeping 10s===========
+=========sleeping 10s===========
+=========sleeping 10s===========
+=========sleeping 10s===========
+
+$ ab -n 5 -c 5  http://0.0.0.0:3000/
+This is ApacheBench, Version 2.3 <$Revision: 1757674 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+Benchmarking 0.0.0.0 (be patient).....done
+Server Software:        gunicorn/19.7.1
+Server Hostname:        0.0.0.0
+Server Port:            3000
+Document Path:          /
+Document Length:        14 bytes
+Concurrency Level:      5
+Time taken for tests:   10.007 seconds    # 此处只花了一个请求的时间 10s,gevent并发处理了5个请求. 
+Complete requests:      5
+Failed requests:        0
+Total transferred:      800 bytes
+HTML transferred:       70 bytes
+Requests per second:    0.50 [#/sec] (mean)
+Time per request:       10006.871 [ms] (mean)
+Time per request:       2001.374 [ms] (mean, across all concurrent requests)
+Transfer rate:          0.08 [Kbytes/sec] received
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        1    2   0.6      2       3
+Processing: 10002 10003   0.6  10003   10003
+Waiting:    10001 10002   0.8  10002   10003
+Total:      10004 10005   1.0  10005   10006
+Percentage of the requests served within a certain time (ms)
+  50%  10005
+  66%  10005
+  75%  10005
+  80%  10006
+  90%  10006
+  95%  10006
+  98%  10006
+  99%  10006
+ 100%  10006 (longest request)
+ 
+sync-------------------------------------------------------------------------------------------------------------------------------
+$ gunicorn  test:app -b  0.0.0.0:3000
+[2017-07-22 11:25:36 +0000] [938] [INFO] Starting gunicorn 19.7.1
+[2017-07-22 11:25:36 +0000] [938] [INFO] Listening at: http://0.0.0.0:3000 (938)
+[2017-07-22 11:25:36 +0000] [938] [INFO] Using worker: sync
+[2017-07-22 11:25:36 +0000] [942] [INFO] Booting worker with pid: 942
+=========sleeping 10s===========
+=========sleeping 10s===========
+=========sleeping 10s===========
+=========sleeping 10s===========
+=========sleeping 10s===========
+
+$ ab -n 5 -c 5  http://0.0.0.0:3000/ 
+This is ApacheBench, Version 2.3 <$Revision: 1757674 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+Benchmarking 0.0.0.0 (be patient).....done
+Server Software:        gunicorn/19.7.1
+Server Hostname:        0.0.0.0
+Server Port:            3000
+Document Path:          /
+Document Length:        14 bytes
+Concurrency Level:      5
+Time taken for tests:   50.069 seconds     # 5个请求花的时间 5*10=50s,一个请求未完成则阻塞后面的请求,根本不可行！
+Complete requests:      5
+Failed requests:        0
+Total transferred:      800 bytes
+HTML transferred:       70 bytes
+Requests per second:    0.10 [#/sec] (mean)
+Time per request:       50068.620 [ms] (mean)
+Time per request:       10013.724 [ms] (mean, across all concurrent requests)
+Transfer rate:          0.02 [Kbytes/sec] received
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   0.2      1       1
+Processing: 10013 30040 15833.0  35046   50067
+Waiting:    10011 30039 15833.3  35046   50067
+Total:      10013 30041 15833.2  35047   50068
+Percentage of the requests served within a certain time (ms)
+  50%  30040
+  66%  40055
+  75%  40055
+  80%  50068
+  90%  50068
+  95%  50068
+  98%  50068
+  99%  50068
+ 100%  50068 (longest request)
+====================================================================================================================================
+
+
+

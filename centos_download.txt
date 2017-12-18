@@ -1,0 +1,5 @@
+
+
+all centos iso download url:
+
+  http://vault.centos.org/

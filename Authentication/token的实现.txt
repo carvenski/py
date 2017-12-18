@@ -1,0 +1,44 @@
+
+
+6. JWT
+
+来看看 token如何实现的，貌似jwt已经成为了事实上的标准。 jwt包含三个部分
+
+    以下内容基本来自于官网 https://jwt.io/
+
+    Header
+    Payload
+    Signature
+
+三个部分分别处理后形成这样一个token: xxxx.yyyy.zzzz header
+
+{
+  "alg": "HS256", // 算法
+  "typ": "JWT"    // token类型
+}
+
+上述信息Base64Url转换后，形成xxxx
+
+Payload 中包含很多claim，这些claim是一些我是谁，我能干嘛的一些声明(claim)。这些claim分三种(Reserved, Public, private)，种类细分暂时是TODO，
+后来我再看。
+
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "admin": true
+}
+
+上述信息Base64Url转换后，形成yyyy
+
+Signature 需要将上述xxxx,yyyy部分加一起，通过header中指定的加密方法，然后加上一个secret，hash过后得到。 比如上述信息的话:
+
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+
+这样得到zzzz的部分
+
+很显然，server保存的secret，所以外部是不能自己模拟产生一个合法的token。简单想想，其实就是你写了个证明，由某个机构给你改了个章。你可以自己修改其中的信息，
+但是章你盖不出来，所以文件没有效力，这也是为什么填文件资料填错涂改的时候，需要在涂改的部分旁边，加上一个章。 嗯。
+

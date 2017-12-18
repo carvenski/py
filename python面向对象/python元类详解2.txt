@@ -1,0 +1,117 @@
+
+
+Python中的__new__及其用法
+==============================================================================
+__new__是在实例创建之前被调用的，因为它的任务就是创建实例然后返回该实例，是个静态方法。
+==============================================================================
+
+__new__和__init__的区别
+__new__是Python面向对象语言中一个很少用的函数，更多使用的是__init__这个函数。例如：
+
+class Book(object):
+    def __init__(self, title):
+        super(Book, self).__init__(self)
+        self.title = title
+
+# Define a book
+
+b = Book('The Django Book')
+print b.title
+
+上面算是OOP语言的入门代码了，粗略一看__init__和java中的构造函数一样，其实不然，实际上它根本不能算的上构造函数。__new__才是创建实例的方法。
+
+==============================================================================
+根据官方文档：
+    __init__是当实例对象创建完成后被调用的，然后设置对象属性的一些初始值。
+    __new__是在实例创建之前被调用的，因为它的任务就是创建实例然后返回该实例，是个静态方法。
+==============================================================================    
+    
+也就是，__new__在__init__之前被调用，__new__的返回值（实例）将传递给__init__方法的第一个参数，然后__init__给这个实例设置一些参数。
+class Book(object):
+    def __new__(cls, title):
+        print '__new__'
+        return super(Book, cls).__new__(cls)
+        
+    def __init__(self, title):
+        print '__init__'
+        super(Book, self).__init__(self)
+        self.title = title
+        
+b = Book('The Django Book')
+print b.title
+
+上面执行的结果：
+
+__new__
+__init__
+The Django Book
+
+__new__的应用场景
+
+官方文档指出__new__方法的两种用法。
+允许继承不可变类型（str，int， tuple）
+
+关于这种也有比较多的例子，网上搜到的例子基本上都属于理论性，实际中用法不太常见。
+在MetaClass中使用
+
+MetaClass算是Python的语法糖吧，简单来说通过它可以动态生成或更改class的定义。
+
+一个比较实际的例子，是在Django admin 表单验证的时候如何访问当前请求request。StackFlow的链接如下：
+http://stackoverflow.com/questions/1057252/how-do-i-access-the-request-object-or-any-other-variable-in-a-forms-clean-met/6062628#6062628
+
+首先想到的是把request也传递过去，在clean方法就可以使用了。
+
+class MyForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super(MyForm, self).__init__(*args, **kwargs)
+    
+    def clean(self):
+        #这里可以得到self.request的信息
+        pass
+
+在平常的view用下面的代码调用：
+
+f = MyForm(request.POST, request=request)
+
+但是在定制ModelAdmin的时候却不行，因为admin只提供get_form这个方法，返回值是类对象，而不是实例对象
+
+get_form(self, request, *args, **kwargs):
+    # 这行代码是错误的
+    # return MyForm(request=request) 
+    return MyForm     # OK
+
+用__new__方法可以解决这个问题。
+
+def get_form(self, request, *args, **kwargs):
+    class ModelFormMetaClass(MyForm):
+        def __new__(cls, *args, **kwargs):
+            kwargs['request'] = request
+            return MyForm(*args, **kwargs)
+    return ModelFormMetaClass
+
+那么结果如何呢，add_view的调用代码如下：
+
+def add_view(self, request, form_url='', extra_context=None)"
+    ...
+    ModelForm = self.get_form(request)
+    if request.method == 'POST':
+        form = ModelForm(request.POST, request.FILES)
+        #可以获取request参数
+        # print form.request
+        if form.is_valid():
+            pass
+        else:
+            pass
+    else:
+        ...（计算initial）
+        form = ModelForm(initial=initial)
+
+分析：
+form = ModelFormMetaClass(request.POST, request.FILES)，按照通常的理解右边应该返回的是ModelFormMetaClass的一个实例，
+由于重写了__new__函数，没有调用父类函数，而是直接返回了一个带有request参数的MyForm实例，然后调用__init__函数，
+因此最后ModelFormMetaClass（）返回也是这个实例，而左边也需要的是MyForm的实例对象。因此__new__函数的作用是创建一个实例。
+
+备注：MetaClass它会降低代码的可读性，也有替代方案，不建议项目中使用。有兴趣的话可以参考这里。
+
+

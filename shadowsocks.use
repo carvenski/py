@@ -1,0 +1,25 @@
+
+
+first, download  shadowsocks-local-linux64 and config.json from crolax.xyz
+
+# config.json is like:
+{
+    "server":["173.255.223.203"],
+    "server_port":23807,
+    "local_port":1080,
+    "password":"rwpb5eiebf",
+    "timeout":300,
+    "method":"aes-256-cfb"
+}
+
+1.
+./shadowsocks-local-linux64 -c config.json
+
+2.
+yandex-browser-beta --no-sandbox  --proxy-server="socks5://127.0.0.1:1080" 
+
+(or yandex-browser-beta --no-sandbox  --proxy-server="https=socks5://127.0.0.1:1080; http=socks5://127.0.0.1:1080" )
+
+it works well...
+
+

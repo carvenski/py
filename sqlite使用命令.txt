@@ -1,0 +1,18 @@
+﻿
+SQLite3的数据库命令:
+
+#   以 . 开头的命令
+
+2   sqlite  xx.db
+
+3   .show
+
+4   .tables
+
+5   .exit
+
+
+
+====>>>>
+
+6   使用Navicat连接数据库/图形化操作最好用

@@ -1,0 +1,191 @@
+
+
+#创建git版本库
+git init 
+
+#在Git中，用HEAD表示当前版本，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写成HEAD~100
+
+#回退版本/或只回退某个文件
+git reset --hard commitId(或head^等)
+git reset --hard commitId(或head^等) file 
+
+#在Git中，总是有后悔药可以吃的。当你用$ git reset --hard HEAD^回退到上一个版本时，再想恢复到最新的版本时，
+#就必须找到它对应的commit id。Git提供了一个命令git reflog用来记录你的每一次命令
+
+#(多次add到暂存区,合成一次commit到当前分支)
+#第一步是用git add把文件添加进去，实际上就是把文件修改添加到暂存区；
+#第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
+#你可以简单理解为，需要提交的文件修改通通放到暂存区，然后，一次性提交暂存区的所有修改。
+# 暂存区是Git非常重要的概念，弄明白了暂存区，就弄明白了Git的很多操作到底干了什么。
+
+# 和最新版本比较文件差异
+提交后，用 git diff HEAD -- readme.txt 命令可以查看工作区和版本库里面最新版本的区别：
+
+#丢弃工作区的修改(指还未使用add加到暂存区的纯工作区的修改)：
+git checkout -- readme.txt
+#命令git checkout -- readme.txt意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：
+#一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+#一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+#总之，就是让这个文件回到最近一次git commit或git add时的状态。
+#注意：git checkout -- file命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令，
+
+#从工作区删除文件后：
+#一是确实要从版本库中删除该文件，那就用命令git rm删掉，并且git commit：
+git rm test.txt
+git commit -m "remove test.txt"  #现在，文件就从版本库中被删除了。
+
+#另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本：
+git checkout -- test.txt
+git checkout其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。
+
+#本地关联到远程库
+git remote add origin git@github.com:yxzoro/learngit.git
+#添加后，远程库的名字就是origin，这是Git默认的叫法，也可以改成别的，但是origin这个名字一看就知道是远程库。
+
+#要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git；
+#关联后，使用命令git push -u origin master第一次推送master分支的所有内容；
+#此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
+
+#要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆。
+#Git支持多种协议，包括https，但通过ssh支持的原生git协议速度最快。
+
+#分支就是科幻电影里面的平行宇宙，当你正在电脑前努力学习Git的时候，另一个你正在另一个平行宇宙里努力学习SVN。
+#如果两个平行宇宙互不干扰，那对现在的你也没啥影响。不过，在某个时间点，两个平行宇宙合并了，结果，你既学会了Git又学会了SVN！
+#实际工作里就是：多人同时开发各自的功能，在各自的分支上写代码，最后合并到一起即可，顶多有冲突而已。。
+
+# -----------------------------------------------------------------------------------------------------------------------------------
+图示git分支原理：(非常清晰的图示讲解！！)
+  http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001375840038939c291467cc7c747b1810aab2fb8863508000
+# -----------------------------------------------------------------------------------------------------------------------------------
+
+#Git鼓励开发时大量使用分支：master+dev+feature几种分支的使用：
+查看分支：git branch -a
+创建分支：git branch <name>
+切换分支：git checkout <name> 
+创建+切换分支：git checkout -b <name> 或 git checkout -b dev origin/dev(首次基于远程的dev分支创建本地的dev分支)
+合并某分支到当前分支：git merge <name>  
+(
+fast-forward快速合并模式是指master分支没有改动而直接合并dev分支的简单情况,
+若master分支本身也有新的改动的话,则master分支合并dev分支无法使用快速合并模式,而是2条线合并为1条线的正常合并模式.
+通常，合并分支时，如果可能，Git会用Fast forward模式，但这种模式下，删除分支后，会丢掉分支信息.
+如果要强制禁用Fast forward模式(git merge加上--no-ff),Git就会在merge时生成一个新的commit,这样,从分支历史上就可以看出分支信息
+)
+删除分支：git branch -d <name>
+
+# ----------------------------------------------------------------------------------------------------------------------------------- 
+# merge时解决冲突操作：
+$ git merge feature1
+Auto-merging readme.txt
+CONFLICT (content): Merge conflict in readme.txt
+Automatic merge failed; fix conflicts and then commit the result.
+# Git告诉我们，readme.txt文件存在冲突，必须手动解决冲突后再提交。此时git status也可以告诉我们冲突的文件：
+$ git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 2 commits.
+#
+# Unmerged paths:
+#   (use "git add/rm <file>..." as appropriate to mark resolution)
+#
+#       both modified:      readme.txt
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+# 而且此时git已经帮我们把冲突的文件里面标记好了被同时修改的部分,直接打开冲突文件即可,然后手动合并冲突即可
+
+# 最后可以用带参数的git log可以看到分支的合并情况图示：
+$ git log --graph --pretty=oneline --abbrev-commit
+
+*   59bc1cb conflict fixed
+|\
+| * 75a857c AND simple
+* | 400b400 & simple
+|/
+* fec145a branch test
+# -----------------------------------------------------------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------------------------------------------------------
+# Git还提供了一个stash功能,可以把当前工作区(未加入到暂存区的)的修改"储藏"起来,等以后可以恢复现场后继续工作：
+$ git stash
+Saved working directory and index state WIP on dev: 6224937 add merge
+HEAD is now at 6224937 add merge
+# 列出之前储藏的工作区的修改：
+$ git stash list
+stash@{0}: WIP on dev: 6224937 add merge
+# 恢复并删除该stash内容：
+git stash pop stash@{0} = git stash apply stash@{0} + git stash drop stash@{0}
+
+# git remote -v 显示远程库的信息：
+$ git remote -v
+origin  git@github.com:michaelliao/learngit.git (fetch)
+origin  git@github.com:michaelliao/learngit.git (push)
+上面显示了可以pull和push的origin的地址.如果没有推送权限.就看不到push的地址。
+# -----------------------------------------------------------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------------------------------------------------------
+# 把本地分支推送到远程分支：
+git push origin local_branch:remote_branch
+
+注意1 local_branch必须为你本地存在的分支,remote_branch为远程分支,如果remote_branch不存在则会自动创建分支.
+注意2 git push origin  :remote_branch  其中local_branch留空的话则是直接删除远程remote_branch分支 !!!
+# -----------------------------------------------------------------------------------------------------------------------------------
+
+指定本地dev分支与远程origin/dev分支的对应关系,设置dev和origin/dev的链接：(这样才能从origin/dev来git pull到本地dev !!)
+$ git branch --set-upstream dev origin/dev
+Branch dev set up to track remote branch dev from origin.
+
+# -----------------------------------------------------------------------------------------------------------------------------------
+多人协作的工作模式通常是这样：
+首先，用git push origin branch-name推送自己的修改；
+如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
+如果合并有冲突，则解决冲突，并在本地提交,
+没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！
+如果git pull提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，
+则使用命令git branch --set-upstream branch-name origin/branch-name 建立本地远程对应关系,
+这就是多人协作的工作模式，一旦熟悉了，就非常简单。
+# -----------------------------------------------------------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------------------------------------------------------
+# git tag标签功能：
+发布一个版本时,我们通常先在版本库中打一个标签(tag),这样,就唯一确定了打标签时刻的版本.
+将来无论什么时候,取某个标签的版本,就是把那个打标签的时刻的历史版本取出来.所以,标签也是版本库的一个快照。
+Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针.
+tag就是一个让人容易记住的有意义的名字,它唯一指向某个commitId !!
+
+# 基于一个commitId创建tag:
+$ git tag -a tag1 -m "test tag" 3628164scdhgfgd56、
+# 用命令git show <tagname>可以看到该tag的相关说明信息
+# 可以用命令git tag查看所有标签
+# 删除本地标签 git tag -d v0.1
+# 如果要推送某个标签到远程，使用命令git push origin <tagname>
+# 或者,一次性推送全部尚未推送到远程的本地标签：git push origin --tags
+# 如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：
+$ git tag -d v0.9
+Deleted tag 'v0.9' (was 6224937)
+# 然后,从远程删除.删除命令是git push origin  :refs/tags/<tagname>,例如：
+$ git push origin :refs/tags/v0.9
+To git@github.com:michaelliao/learngit.git
+ - [deleted]         v0.9
+# -----------------------------------------------------------------------------------------------------------------------------------
+
+# 让Git显示颜色,会让命令输出看起来更醒目：
+$ git config --global color.ui true
+# 配置缩写git命令：很多人都用ch表示checkout，cm表示commit，br表示branch，st表示status,
+$ git config --global alias.ch checkout
+$ git config --global alias.cm commit
+$ git config --global alias.br branch
+$ git config --global alias.st status
+# 在撤销修改一节中，我们知道，命令git reset HEAD file可以把暂存区的修改撤销掉(unstage),重新放回工作区。
+# 既然是一个unstage操作，就可以配置一个unstage别名：
+$ git config --global alias.unstage 'reset HEAD'
+# 甚至还有人丧心病狂地把lg配置成了(git log显示效果很炫)：
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# 配置Git的时候,加上--global是针对当前用户起作用的,如果不加,那只针对当前的仓库起作用。
+
+# 每个仓库的Git配置文件都放在.git/config文件中,
+# 而当前用户的Git配置文件放在用户主目录下的一个隐藏文件.gitconfig中：
+
+
+
+
+
+

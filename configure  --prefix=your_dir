@@ -1,0 +1,9 @@
+
+
+# gcc编译安装时指定安装的文件夹：(便于将来软件的管理 --> 无论使用还是卸载等都只会影响本文件夹而已！！)
+# 比如安装python3.5：(pyenv的多版本python环境原理类似,只是它的python环境均放在了~/.pyenv/versions/下面而已)
+
+./configure --prefix=/usr/local/python3.5
+
+
+

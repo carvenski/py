@@ -1,0 +1,172 @@
+01.安装git:
+	sudo apt-get install git
+02.配置用户名和邮箱：
+	git config --global user.name "Your Name"
+	git config --global user.email "email@example.com"
+03.创建版本库
+	git init
+04.添加文件到暂存区
+	git add xxx.txt
+05.提交暂存区修改到仓库
+	git commit -m "注释"
+06.查看修改状态
+	git status xxx.txt
+0.61 更新最新代码
+	git pull
+07.提交后查看差异
+	git diff xxx.txt
+08.查看历史记录
+	git log
+09.查看历史记录（简洁）
+	git log --pretty=oneline
+10.回退到以前版本
+	git reset --hard HEAD^		回退一次
+	git reset --hard HEAD^^		回退两次
+	git reset --hard HEAD~100	回退百次
+	git reset --hard commit_id	回退到某个版本
+11.	如果文件在未提交到仓库前又做了修改，需要将修改的版本add到仓库中再提交。
+12.撤销修改
+	若未add到暂存区，则
+		git checkout xxx.txt 
+	若已add到暂存区，则
+		git reset HEAD xx.txt
+		
+13.删除修改
+	git rm xxx.txt
+14.添加远程仓库
+	a.注册git账户
+	b.创建ssh公钥
+		ssh-keygen -t rsa -C "youremail@example.com"
+	c.在远程仓库设置中将.ssh\id_rsa.pub文件内容添加到git账户的"ssh keys"中
+	d.发送邮箱验证
+15.添加远程库，并将本地库与远程库内容同步
+	a.创建远程库
+		"Create a new repo"
+	b. 关连本地库
+		git remote add 远程库名 git@github.com:GIT账户/本地库名.git
+	c.添加本地库内容到远程库
+		git push -u 远程库名 master 或 git push 远程库名 master(加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。)
+16.从远程库克隆
+	git clone 远程库地址
+17.创建合并分支
+	a.查看分支
+		git branch
+	b.创建分支
+		git branch 分支名称
+	c.切换分支
+		git checkout 分支名
+	d.创建+切换合并分支
+		git checkout -b 分支名
+	e.合并某分支到当前分支，在当前分支上，
+		git merge 分支名
+	f.删除分支
+		git branch -d 分支名
+18.解决冲突
+	当git无法自动合并分支时，必须解决冲突，再提交合并。
+19.分支策略管理
+	在实际开发中，我们应该按照几个基本原则进行分制管理：
+	首先，master分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；
+	干活都在dev分支上，也就是说，dev分支是不稳定的，到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；
+	每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以了。
+20.Bug分支
+	a.保存工作现场:git stash
+	b.查看保存的工作现场：git stash list
+21.feature分支
+	没有被合并的分支，若要强制删除，则用 git branch -D 分支名
+22.多人协作
+	查看远程库信息，使用git remote -v；
+	本地新建的分支如果不推送到远程，对其他人就是不可见的；
+	从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+	在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+	建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+	从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+23.标签管理
+	git tag <name>用于新建一个标签，默认为HEAD，也可以指定一个commit id；
+	git tag -a <tagname> -m "XXX..."可以指定标签信息；
+	git tag -s <tagname> -m "XXX..."可以用PGP签名标签；
+	git tag可以查看所有标签。
+	git push origin <tagname>可以推送一个本地标签；
+	git push origin --tags可以推送全部未推送过的本地标签；
+	git tag -d <tagname>可以删除一个本地标签；
+	git push origin :refs/tags/<tagname>可以删除一个远程标签。
+24.使用GitHub
+	a.从远程库中克隆
+		git clone git@github.com:库地址
+	b.让git显示颜色
+		git config --global color.ui.true
+	c.忽略不想提交的文件
+		在根目录下新建一个.gitignore的文件，将忽略的文件添加并提交即可。
+	d.为命令配置别名
+		git config --global alias.st status
+		$ git config --global alias.co checkout
+		$ git config --global alias.ci commit
+		$ git config --global alias.br branch	
+	e.配置文件位置
+		.git/config
+25.配置push到远程库中无需输入密码
+	a.将.git-credential放入User/yx文件夹中(即windows下个人主目录//Linux下是/home吧)
+	b.在 User/yx文件夹 中打开Git Bash命令行
+	c.输入命令"git config --global credential.helper store"
+	d.重启git gui即可
+	e.".git-credential"文件内容如下：
+		https://qdsh2016:qdsh2016@github.com
+		
+26. GUI里面，fetch + merge == pull [gui里无pull选项, 可敲pull命令："git pull origin master"]
+
+
+================================================================================================================================================
+常用git命令:
+
+git remote -v :显示远程仓库地址
+
+git init  ：在本地新建仓库
+
+git  remote add origin 远程仓库名  ：添加远程仓库
+
+git status
+
+git stash 
+
+git add 文件名 ：添加该文件被git版本管理
+
+git commit -m  "commit message" 
+
+git push  origin master
+
+git  pull
+
+git merge
+----------------------------------
+git fetch orgin			使得多分支合并图 变成 一条链下来的  方法  ????
+git rebase  origin/master       ????
+----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
