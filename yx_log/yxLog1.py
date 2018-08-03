@@ -47,11 +47,17 @@ import logging
 logging.basicConfig(level=logging.DEBUG,  
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',  
                     datefmt='%a, %d %b %Y %H:%M:%S',  
-                    filename='/var/yx.log')  
-                    
+                    filename='/var/yx.log')                      
 # usage:
 logging.debug('---->')
 '''
+
+#----------------------------------------------------------------------------------------------------#
+
+LOGGER = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format=(
+            '%(levelname) -s %(asctime)s %(filename) -s %(funcName) -s %(lineno) -d: %(message)s'))
+LOGGER.info('---->')
 
 #----------------------------------------------------------------------------------------------------#
 '''
