@@ -1,0 +1,11 @@
+
+[Unit]
+Description=Testx
+
+[Service]
+ExecStart=/usr/bin/tailf  /var/log/yum.log
+Restart=on-failure
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
