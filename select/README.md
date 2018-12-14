@@ -1,7 +1,7 @@
 ## selectors — High-level I/O multiplexing(New in python3.4)
 
 #### Introduction
-```
+```python
 This module allows high-level and efficient I/O multiplexing, built upon the select module primitives. 
 Users are encouraged to use this module instead, unless they want precise control over the OS-level primitives used.
 
@@ -20,7 +20,7 @@ See also select Low-level I/O multiplexing module.
 ```
 
 #### Classes
-```
+```python
 Classes hierarchy:
 
 BaseSelector
