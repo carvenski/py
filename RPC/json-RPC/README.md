@@ -75,3 +75,8 @@ rpc和http的差别不大,rpc协议设计的初衷是为了调用其他机器上
 例如alibaba的dubbo框架本身即是个rpc框架,也是个微服务框架.
 而SpringCloud+SpringBoot框架是基于http的微服务框架.
 ```
+
+#### 常见协议设计的几个考虑点
+[深入理解RPC消息协议设计](https://www.imooc.com/article/264839)
+
+
