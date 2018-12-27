@@ -1,5 +1,9 @@
 
 ### json-RPC协议: 一种基于http+json实现的轻量级简单型RPC协议
+```
+rpc协议的实现既可以基于http协议,也可以基于tcp/ip协议(socket).
+rpc协议的主要参数就是要传入 函数名+函数参数.
+```
 
 [json-RPC协议内容](http://wiki.geekdream.com/Specification/json-rpc_2.0.html)
 
