@@ -74,6 +74,9 @@ rpc和http的差别不大,rpc协议设计的初衷是为了调用其他机器上
 在微服务中,每个服务对外暴露自己的服务功能,提供给调用方使用,既可以以http暴露调用,也可以以rpc暴露调用.
 例如alibaba的dubbo框架本身即是个rpc框架,也是个微服务框架.
 而SpringCloud+SpringBoot框架是基于http的微服务框架.
+
+"服务"这个概念不受限于任何协议,基于任何协议的某种Server,它对外提供某种服务,都可以是个微服务.
+例如,http server/rpc server/NFS server/Echo Server/NTP srever...它们都基于tcp/ip(socket),监听ip:port,对外提供服务.
 ```
 
 #### 常见协议设计的几个考虑点
