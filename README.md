@@ -1,4 +1,4 @@
-# 给小白的Python简明教程(python3)
+# 给小白的Python简明教程
 
 #### 程序的基本概念
 ```python
@@ -7,25 +7,25 @@
 
 #### 2个基本函数的介绍
 ```python
-输入函数: input()
-输出函数: print()
+输入函数(接收来自键盘的输入值): input()
+输出函数(打印输出值到屏幕上): print()
 
 #例子：
-input("please put your name here: ")  # 程序会等待用户输入
-print("your name is: ")               # 程序会打印输出
+name = input("please put your name here: ")  # 程序会等待用户输入姓名
+print("your name is: " + name)               # 程序会打印输出到屏幕上
 ```
 
-#### python中的缩进
+#### python中的缩进-4个空格
 ```python
 #在python中不需要写其他语言里的大括号{}来表示层次的缩进,但是要以4个空格作为一个层次的缩进.
 # 例子:
 
 # 条件语句里的缩进
 if a == 1:
-    print(1)
+    print(1)  # 4个空格就是一个层级的缩进
 else:    
     if a == 2:
-        print(2)
+        print(2)  # 4个空格就是一个层级的缩进
     else:
         if a == 3:
             print(3)
@@ -37,19 +37,20 @@ def add(a, b):
 
 
 #### 3个基本数据类型 + 2个复合数据类型
+*掌握这5种数据类型的熟练使用就足够了*
 ```python
-#中文名    英文名    例子
-数值型     int       0, 1, 100
-字符串型   str       "hello", "hi", "how are you"
-布尔型     bool      true, false
+#中文名    英文名    例子                              解释 
+数值型     int       0, 1, -1, 100                    就是数字类型的值
+字符串型   str       "hello", "hi", "how are you"     就是字符串类型的值
+布尔型     bool      true, false                      就是布尔类型的值
 
-列表型     list      [1, 2, 3], ["a", "b", "c"]
-字典型     dict      {"name": "michael", "salary": 50000}, {"address": "SH", "weather": "snowing"}
+列表型     list      [1, 2, 3], ["a", "b", "c"]       就是一个数据容器,里面按顺序放多个值
+字典型     dict      {"name": "michael", "salary": 50000},    也是一个数据容器,里面存放键值对型的值
 ```
 
 #### 变量
 ```python
-# 变量就是给一个值取个名字的意思
+# 变量就是给一个值取个名字的意思,后面通过这个名字来使用它
 a = 1
 b = "hi, hello"
 c = true
@@ -60,45 +61,33 @@ e = {"food": "apple"}
 
 #### 控制语句
 ```python
-# 条件判断语句: 如果...就...否则...
+# 条件判断语句: 如果...就...否则...的意思
 if a < 1:
-    print 0
+    print(0)
 else:
-    print 2
+    print(2)
 
-# 嵌套的条件判断语句
-if a < 1:
-    print 0
-elif < 2:
-    print 1
-else:
-    print 2
-
-# 循环语句:
-# for循环
-for i in [1, 2, 3, 4, 4]:
+# 循环语句: for循环,就是遍历一个复合的数据结构,挨个打印里面的每一个值的意思
+for i in [1, 2, 3, 4, 5]:
     print(i)
 
 for k, v in {"name": "python", "age": 15}:
-    print(k)
-    print(v)
+    print(k, v)
 
-# while循环
-print("while start")
+# while循环: 循环的另一种写法,当...条件满足,就一直循环做...的意思
 a = 1
 while a < 10:
     print(a)
     a = a + 1
-print("while end")
 ```
 
 #### 函数
 ```python
-# 函数是程序的基本组织单位,可以说程序就是由一个个函数组成的
-# 把一些通用的代码组合起来就是函数
+# 函数是程序的基本组织单位,可以说程序就是由一个个函数组成的,
+# 函数本身,包含函数名和函数体2部分
 
 # 函数的定义: def 函数名(参数):
-def add(a, b):
+def add(a, b):   # 定义一个名叫add的函数,函数体就是下面2句
     c = a + b
     print(c)
 
@@ -111,13 +100,15 @@ add(1, 2)
 ```python
 # 包的概念其实就是文件夹和文件
 # 包/模块/第三方库,都是一个意思,就是写好的代码放在文件里给别人引用,相同的功能你就不需要重复写了.
-# 其实python的强大之一就在于各种功能的包很多,基本上你需要什么功能都有对应的包来用(pip install 包名)
+# 其实python的强大之一就在于各种功能的包很多,基本上你需要什么功能都有对应的包来用(安装包的方法: pip install 包名)
 一个文件就是一个包
 一个文件夹也可以是一个包(此时需要在该文件夹下面建立一个叫__init__.py的文件)
 ```
 
 #### ...
-
+```
+    
+```
 
 
 
