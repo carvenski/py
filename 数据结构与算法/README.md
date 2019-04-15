@@ -1,9 +1,13 @@
 # algorithm note
 ```
-practice algorithm in python.
+遇到一个具体的问题
+能够使用合适的数据机构与算法解决它
+才是一个程序员最最核心的技术.
+```
 
-we don't research algorithm, but should learn how to use them.
+```
+掌握:
+  线性表(顺序表+链表)
+  树(二叉排序树)
 
-参考中文版200道题目:
-w3m https://shenjie1993.gitbooks.io/leetcode-python/121%20Best%20Time%20to%20Buy%20and%20Sell%20Stock.html
 ```
