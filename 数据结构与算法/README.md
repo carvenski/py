@@ -1,4 +1,7 @@
 # algorithm note
+
+[leetcode题目参考](https://shenjie1993.gitbooks.io/leetcode-python/)
+
 ```
 遇到一个具体的问题
 能够使用合适的数据机构与算法解决它
