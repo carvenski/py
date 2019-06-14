@@ -1,0 +1,27 @@
+syntax = "proto3";
+package proto;
+
+message VMInfo {
+    string                  Id                          = 1;
+    string                  Name                        = 2;
+    string                  Status                      = 3;
+    repeated string         PublicIps                   = 4;
+    repeated string         PrivateIps                  = 5;
+    VMInfoConfig            Config                      = 6;
+    string                  Host                        = 7;
+    string                  Sn                          = 8;
+    string                  Provider                    = 9;
+    string                  CreateUserId                = 10;
+    string                  CreateTime                  = 11;
+    string                  IsTemplate                  = 12;
+    string                  VmPathName                  = 13;
+    string                  Desc                        = 14;
+    repeated string         NetworkInterfaceID          = 15;
+    repeated string         PortGroupsId                = 16;
+    repeated string         VolumeId                    = 17;
+}
+
+message VMInfoConfig {
+    int32                   Memory                      = 1;
+    int32                   Cpu                         = 2;
+}
