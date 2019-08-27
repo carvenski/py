@@ -1,0 +1,8 @@
+
+make git global remember user info:
+
+git config --global user.email "xxx@gmail.com" 
+git config --global user.name "xxx"                   
+git config --global user.password "xxx" 
+git config --global credential.helper store   
+
