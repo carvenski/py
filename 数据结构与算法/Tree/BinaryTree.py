@@ -43,6 +43,7 @@ class BinaryTree(object):
             print("tree empty")
         
     def iter_by_width(self):
+        """
         def f(node_list, level=0):
             node_children_list = []
             for node in node_list:
@@ -58,6 +59,16 @@ class BinaryTree(object):
             f([self.root])
         else:
             print("tree empty")
+        """
+        # 按宽度/层次遍历树,使用queue辅助
+        from queue import Queue
+        q = Queue()
+        q.put(self.root)
+        while not q.empty():
+            n = q.get()
+            print(n.value)
+            q.put(n.left)
+            q.put(n.right)
 
     def search(self, value):
         pass
