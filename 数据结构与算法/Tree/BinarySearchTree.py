@@ -1,7 +1,7 @@
 #encoding=utf8
 
 # ==========================================================
-# BinarySearchTree(二叉查找树/二分查找) based on LinkedTable
+# BinarySearchTree(二叉查找树/二分查找) 
 # ==========================================================
 
 from BinaryTree import BinaryTreeNode, BinaryTree
@@ -58,12 +58,11 @@ class BinarySearchTree(BinaryTree):
                 current = current.right
 
     def delete(self, value):
-        # for all children node,
-        # choose a existed children node(maybe left/right) move up 1 step
+        # 
         pass
 
     def update(self, value, new_value):
-        # delete then add
+        # search and update value
         pass
 
 
