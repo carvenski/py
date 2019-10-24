@@ -1,6 +1,7 @@
-#################################
-#   Here is my i3-gaps config
-#################################
+###################################################################
+Here is my i3-gaps config
+(install i3-gaps on any linux, see https://github.com/Airblader/i3)
+###################################################################
 
 # Xresources      var      value       fallback
 set_from_resource $bg      background  #19043C
