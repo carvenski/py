@@ -23,19 +23,6 @@ client.background       $bg
 # border & title.. Must be set to border pixel for gaps to work
 for_window [class="^.*"] border pixel 2, title_format "<b> %class >> %title </b>"
 
-###################################################
-# for vscode screen refresh rate slow bug => 
-# 需要开启vmware的加速图形功能,并设置显卡内存128M,
-# 但是该功能开启后,明显vmware占用的内存会增高...
-backend = "xrender";
-refresh-rate = 0;
-vsync = true;
-paint-on-overlay = true;
-detect-transient = true;
-unredir-if-possible = false;
-###################################################
-
-
 # gaps
 gaps inner 15
 gaps outer 5
