@@ -1,7 +1,4 @@
-###################################################################
-Here is my i3-gaps config
-(install i3-gaps on any linux, see https://github.com/Airblader/i3)
-###################################################################
+# ArchLabs i3 config
 
 # Xresources      var      value       fallback
 set_from_resource $bg      background  #19043C
@@ -25,6 +22,18 @@ client.background       $bg
 
 # border & title.. Must be set to border pixel for gaps to work
 for_window [class="^.*"] border pixel 2, title_format "<b> %class >> %title </b>"
+
+###################################################
+# for vscode screen refresh rate slow bug => 
+# 注: 需要开启vmware的加速图形功能,并设置显卡内存128M
+backend = "xrender";
+refresh-rate = 0;
+vsync = true;
+paint-on-overlay = true;
+detect-transient = true;
+unredir-if-possible = false;
+###################################################
+
 
 # gaps
 gaps inner 15
@@ -256,4 +265,3 @@ for_window [window_role="(?i)(?:pop-up|setup)"]      floating enable
 popup_during_fullscreen smart
 
 exec --no-startup-id i3-msg workspace $WS1
-
