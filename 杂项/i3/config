@@ -1,5 +1,9 @@
 # ArchLabs i3 config
 
+############################################
+# mouse right click is copy/or shift+insert
+############################################
+
 # Xresources      var      value       fallback
 set_from_resource $bg      background  #19043C
 set_from_resource $fg      foreground  #F1F1F1
