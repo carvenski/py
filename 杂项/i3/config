@@ -68,6 +68,7 @@ exec_always --no-startup-id xrdb -load ~/.Xresources
 # run once
 exec --no-startup-id xfsettingsd
 
+################################################################################
 #### compton start here, compton effect need vmware set 256m display card mem !
 exec --no-startup-id al-compositor --start  
 
@@ -255,3 +256,4 @@ for_window [window_role="(?i)(?:pop-up|setup)"]      floating enable
 popup_during_fullscreen smart
 
 exec --no-startup-id i3-msg workspace $WS1
+
