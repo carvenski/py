@@ -1,7 +1,6 @@
-from concurrent.futures import ThreadPoolExecutor
 from concurrent import futures
 
-pool = ThreadPoolExecutor(10)
+pool = futures.ThreadPoolExecutor(10)
 
 args = [(queryAllDCHandler, kw, 'compute/datacenter/sync'),
         (queryAllClusterHandler, kw, 'compute/cluster/sync'),                        
