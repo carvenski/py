@@ -1,0 +1,13 @@
+[Unit]
+Description=uwsgi - high performance web server
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/uwsgi --ini /root/outsource/ShareProfit/myproject/uwsgi.ini 
+ExecReload=/usr/local/bin/uwsgi --reload /root/outsource/ShareProfit/myproject/uwsgi.pid
+ExecStop=/usr/local/bin/uwsgi --stop /root/outsource/ShareProfit/myproject/uwsgi.pid
+
+[Install]
+WantedBy=multi-user.target
+
