@@ -1,4 +1,4 @@
-import pymysql
+import pymysql  # pymysql is a pure python version mysql lib
 import random
 
 r = int(random.random()*100)
