@@ -21,9 +21,10 @@ vbox可以直接打开vmdk格式的磁盘文件,直接打开虚拟机!!
 2.arch里面 sudo gpasswd -a michael vboxsf (把用户加入vboxsf组)
 ```
 
-
+## vbox + arco 搭配
 > arcolinux这个发行版开箱即用,推荐vbox + arcolinux虚拟机组合.
-> 目前经验 arcolinux + vbox 太完美了 !!    
+> 目前经验 arcolinux + vbox 太完美了! 
+> 注意vbox版本需要匹配否则会有剪贴板问题,当前arco虚拟机使用的是vbox-6.1.12版本.   
 
 
 
