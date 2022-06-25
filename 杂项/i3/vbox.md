@@ -22,7 +22,7 @@ vbox可以直接打开vmdk格式的磁盘文件,直接打开虚拟机!!
 ```
 
 ## vbox + arco 搭配
-> arcolinux这个发行版开箱即用,推荐vbox + arcolinux虚拟机组合.
-> 目前经验 arcolinux + vbox 很完美! 
-(注意: arco里面终端中复制快捷键是ctrl+shift+c)
+> arcolinux这个发行版开箱即用,推荐vbox + arcolinux虚拟机组合.      
+> 目前经验 arcolinux + vbox 很完美!       
+(注意: arco里面终端中复制快捷键是ctrl+shift+c)     
 
