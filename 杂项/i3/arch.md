@@ -1,4 +1,4 @@
-#### arch pacman 包的降级处理
+## arch pacman 包的降级处理
 ```
 arch有个专门的仓库来存放那些老版本的包，去这里找就行了
 https://archive.archlinux.org/packages/l/llvm-libs/
@@ -11,3 +11,7 @@ https://wiki.archlinux.org/index.php/Arch_Linux_Archive#How_to_downgrade_one_pac
 下载好了旧版本的包后， pacman -U 包  即可安装.
 ```
 
+## archlinux安装部署各种环境 最佳实践
+如果在archlinux上遇到安装各种lib库文件问题时,     
+最好的方式应该是直接使用docker容器 - 专门解决这种库文件安装依赖版本问题的           
+而不是非得在arch本地安装 - 浪费时间而已 - 坑过多次了 - 请使用docker来提高安装效率!!    
