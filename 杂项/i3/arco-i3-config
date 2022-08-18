@@ -142,7 +142,8 @@ mode "$mode_system" {
 
 # ArcoLinux Logout
 bindsym $mod+Shift+e exec --no-startup-id arcolinux-logout
-bindsym $mod+X exec --no-startup-id arcolinux-logout
+#bindsym $mod+X exec --no-startup-id arcolinux-logout
+bindsym $mod+x exec --no-startup-id arcolinux-logout
 
 ################# reload changed configuration     
 
@@ -297,7 +298,7 @@ assign [class="Chromium|Google-chrome"]                                         
 
 # Workspace 2 text editor related
 assign [class="sublime-text|sublime_text|Sublime_text|subl|Subl|subl3|Subl3"]       → 2
-assign [class="Xed|xed|Brackets|Atom|Code|code|vscode|Geany"]                       → 3
+assign [class="Xed|xed|Brackets|Atom|Code|code|vscode|Geany"]                       → 5
 
 # Workspace 3 Inkscape
 # assign [class="Inkscape"]                                                           → 3
@@ -842,5 +843,6 @@ bar {
 ################# unclutter                        
 
 # NOT USED
+
 # get the mouse out of the way with unclutter
 # exec --no-startup-id unclutter
