@@ -42,6 +42,9 @@ django会使用一个线程去处理一个http请求
 这才是django这个坑的更好的解决方案。。
 ```
 
-[django多线程数据库连接不释放问题参考](https://github.com/slackapi/bolt-python/issues/280)
+[django多线程数据库连接不释放问题参考](https://github.com/slackapi/bolt-python/issues/280)      
+[django实现连接池方案参考](https://lockshell.com/2019/08/28/django-db-connection-pool/)        
+
+
 
 
