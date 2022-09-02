@@ -1,6 +1,6 @@
 ## django的数据库连接机制
 
-###### 多线程处理请求
+##### 多线程处理请求
 ```
 django会使用一个线程去处理一个http请求
 在每个请求的处理过程中，如果使用了django的orm去操作数据库了，
@@ -9,7 +9,7 @@ django会使用一个线程去处理一个http请求
 在请求处理完后，如果该线程也不需要保持的话，django也会负责自动去关闭该conncetion。
 ```
 
-###### uwsgi的线程池工作模式 + django
+##### uwsgi的线程池工作模式 + django
 ```
 一般来说http server的多线程工作模式是会保持着几个固定线程去等待处理请求的，也就应该是保持着几个固定的数据库连接。
 然而实测效果是django自带的runserver每个请求进来就会开个线程去处理，处理完了又销毁了这个线程，是没有线程池的。
@@ -17,13 +17,13 @@ django会使用一个线程去处理一个http请求
 但是实测uwsgi的线程池效果也是一样，还是在在不停的创建和关闭连接。
 ```
 
-###### 最终发现：
+##### 最终发现：
 ```
 其实不关uwsgi线程池的事，是django自己在每个请求结束时会发信号去检查MAX_CONN_AGE的值并且自动关闭当前Thread Local里的连接。。
 那么有一种做法就是设置MAX_CONN_AGE的值大于0即可，这样django就会保持连接一定存活时间，下次请求就可以复用当前Thread Local里的连接了。
 ```
 
-###### 但是这么做还是有风险: 请求内部用户自己创建多线程并且使用orm查询数据库的情况
+##### 但是这么做还是有风险: 请求内部用户自己创建多线程并且使用orm查询数据库的情况
 ```
 如果用户自己在django中也创建了多线程去跑并发任务，并且在线程里面还使用了orm去操作数据库，
 那么django orm还是会替你自动到当前的线程的Thread Local里面去找connection使用，
@@ -33,7 +33,7 @@ django会使用一个线程去处理一个http请求
 这尼玛都是坑啊。。。
 ```
 
-### 更好的做法: use SQLAlchemy conn pool
+### 更好的做法 使用连接池 SQLAlchemy conn pool
 ```
 除了设置django MAX_CONN_AGE > 0 来实现db连接复用的方式之外，
 还有一个更好的做法：就是替换django自带的这个DB Engine class,把它换成SQLAlchemy等自带线程池的引擎。
@@ -48,8 +48,8 @@ django会使用一个线程去处理一个http请求
 [django多线程数据库连接不释放问题参考](https://github.com/slackapi/bolt-python/issues/280)      
 [django实现连接池方案参考](https://lockshell.com/2019/08/28/django-db-connection-pool/)        
 
-## 我的patch方案 目前已测试成功 
+## 最终落地方案 我的patch方案 目前已测试成功 
 ```
-经过一周的研究和测试(2022.9.2) 终于研发成功了这个patch_for_django_orm.py 后面有空把它提交到pypi上去。
+经过我一周的研究和测试(2022.9.2) 终于研发成功了这个patch_for_django_orm.py 后面有空把它提交到pypi上去。
 给django贡献一个patch。hahaha
 ```
