@@ -40,12 +40,16 @@ django会使用一个线程去处理一个http请求
 这样，上层的django orm啥都不用动，只需要替换底层的一个DB Engine class即可,
 然后django原先的每次请求会去connect和close conn的做法，就会被透明地替换成 get和put back from conn pool机制了。
 只需要根据并发线程数设置好合适的连接池的数量即可。
-这才是django这个坑的更好的解决方案。。
+这是django这个坑的更好的解决方案。。
+但是仍然会遇到相同的问题：用户自己开的线程中如果查询orm，django会从pool中自动获取conn,但是不会自动释放conn。
+就会导致pool里的conn被占用无法释放。。。
 ```
 
 [django多线程数据库连接不释放问题参考](https://github.com/slackapi/bolt-python/issues/280)      
 [django实现连接池方案参考](https://lockshell.com/2019/08/28/django-db-connection-pool/)        
 
-
-
-
+## 我的patch方案 目前已测试成功 
+```
+经过一周的研究和测试(2022.9.2) 终于研发成功了这个patch_for_django_orm.py 后面有空把它提交到pypi上去。
+给django贡献一个patch。hahaha
+```
