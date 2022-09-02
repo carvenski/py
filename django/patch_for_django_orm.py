@@ -33,6 +33,16 @@ patch threading.Thread.
 patch django.db.backends.mysql.base.
   Database
   DatabaseWrapper.get_new_connection
+  
+# ===============
+# Tested versions
+
+python = 3.7
+django = 3.2.15
+sqlalchemy = 1.4
+pymysql = 1.0
+mysql = 5.7
+uwsgi = 2.0
 """
 
 import threading
