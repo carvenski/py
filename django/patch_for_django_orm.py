@@ -57,7 +57,7 @@ def install():
     def patch_Thread_start(func):
         def new_start(self, *args, **kwargs):
             # patch user's run in Thread.start because 
-            # some users like overide Thread.run, so start is more reliable
+            # some users like overide Thread.run, so patch start is more reliable
             threading._old_run = self.run
             self.run = patch_Thread_run(threading._old_run)
             return func(self, *args, **kwargs)
