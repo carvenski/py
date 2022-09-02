@@ -51,8 +51,13 @@ from django.db.backends.mysql import base
 from django.db.backends.mysql.base import DatabaseWrapper
 from sqlalchemy import pool
 
-def install():
+def patch_all():
     print(PATCH_EXPLAIN)
+    patch_thread()
+    patch_database()
+
+def patch_thread():
+    print("=== patch threading.Thread")
 
     # patch threading.Thread to add django.db.close_old_connections after user's Thread.run
     def patch_Thread_run(func):
@@ -73,13 +78,14 @@ def install():
             return func(self, *args, **kwargs)
         return new_start
 
-    print("=== patch threading.Thread")
     threading._old_start = threading.Thread.start
     threading.Thread.start = patch_Thread_start(threading._old_start)
 
 
-    # patch django.db.backends.mysql.base to use sqlalchemy conn pool
+def patch_database():
     print("=== patch base.Database")
+    
+    # patch django.db.backends.mysql.base to use sqlalchemy conn pool
     base._old_Database = base.Database
     base.Database = pool.manage(
         base._old_Database, 
@@ -99,8 +105,6 @@ def install():
         return new_func
 
     print("=== patch DatabaseWrapper.get_new_connection")
-    DatabaseWrapper._get_new_connection = DatabaseWrapper.get_new_connection
-    DatabaseWrapper.get_new_connection = patch_get_new_connection(DatabaseWrapper._get_new_connection)
+    DatabaseWrapper._old_get_new_connection = DatabaseWrapper.get_new_connection
+    DatabaseWrapper.get_new_connection = patch_get_new_connection(DatabaseWrapper._old_get_new_connection)
 
-    
-    
