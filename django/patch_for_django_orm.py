@@ -55,11 +55,21 @@ And only patch threading module in python2/3,
 If you use old thread/_thread module to create thread, no patch.
 """
 
+import sys
 import threading
-from django.db import close_old_connections
-from django.db.backends.mysql import base
-from django.db.backends.mysql.base import DatabaseWrapper
-from sqlalchemy import pool
+try:
+    # python3 use pymysql replace MySQLdb
+    if sys.version_info < (3, 0):
+        import MySQLdb
+    else:
+        import pymysql; pymysql.install_as_MySQLdb()
+    from django.db import close_old_connections
+    from django.db.backends.mysql import base
+    from django.db.backends.mysql.base import DatabaseWrapper
+    from sqlalchemy import pool
+except Exception:
+    raise Exception('import module error\n=> please make sure django & sqlalchemy & MySQLdb or pymysql installed.')
+
 
 def patch_all(**kw):
     # print(PATCH_EXPLAIN)
