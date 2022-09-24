@@ -24,6 +24,6 @@ vbox可以直接打开vmdk格式的磁盘文件,直接打开虚拟机!!
 ## vbox + arco 搭配
 > arcolinux这个发行版开箱即用,推荐vbox + arcolinux虚拟机组合.      
 > 目前经验 arcolinux + vbox 很完美!       
-*arco开机只占用200M 太强了。居然如此优秀。*
-但是为啥vbox持续占用cpu 30% ? 里面arco根本没在运行什么cpu任务。
-
+*arco开机只占用200M 太强了。居然如此优秀。*      
+但是为啥vbox持续占用cpu 30% ? 里面arco根本没在运行什么cpu任务。       
+网上有个回答是vbox bridge功能有bug不要安装即可.       
