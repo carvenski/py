@@ -21,9 +21,17 @@ vbox可以直接打开vmdk格式的磁盘文件,直接打开虚拟机!!
 2.arch里面 sudo gpasswd -a michael vboxsf (把用户加入vboxsf组)
 ```
 
-## vbox + arco 搭配
-> arcolinux这个发行版开箱即用,推荐vbox + arcolinux虚拟机组合.      
-> 目前经验 arcolinux + vbox 很完美!       
-*arco开机只占用200M 太强了。居然如此优秀。*      
-但是为啥vbox持续占用cpu 30% ? 里面arco根本没在运行什么cpu任务。       
-网上有个回答是vbox bridge功能有bug不要安装即可.       
+## vbox键盘独占问题
+```
+vbox在安装了增强功能之后,分辨率可以自动缩放,鼠标也可以自动切换,
+但是: 键盘不能自动切换!! 要么独占要么不占...
+键盘快捷键输入不能自动跟随鼠标是否移到虚拟机窗口内外部而自动的切换输入进虚拟机还是外面win10.
+(而vmware是可以自动跟随鼠标位置切换键盘的快捷键的输入的)
+```
+
+> 目前经验: 还是vmware比vbox更好用...    
+
+
+
+
+
